@@ -10,7 +10,6 @@ window.onload = function() {
     _ySpeed: null,
     _visible: true,
 
-
     //Create new star object with given starting position and speed
     //class functions exist to set other private variables
     //All inputs are double and function returns a new star
@@ -61,8 +60,27 @@ window.onload = function() {
   var ship2 = new Image();
   ship2.src="images/spaceship2.png";
   var p1Score = 0, p2Score = 0;
+  var lenny = new Image();
+  lenny.src="images/leonard.png";
+  var it = new Image ();
+  it.src="images/thomas.png";
+  var king = new Image ();
+  king.src="images/king.png";
 
+  var lennyX = w - 50;
+  var lennyY = 50;
+  var lennyVX = 3;
+  var lennyVY = 3;
 
+  var itX = 50;
+  var itY = 50;
+  var itVX = 2.5;
+  var itVY = 2.5;
+
+  var kingX = 50;
+  var kingY = 50;
+  var kingVX = 4;
+  var kingVY = 4;
 
   // our stars are created using a single array with a class of information
   var starCount=5;
@@ -95,30 +113,60 @@ window.onload = function() {
         // checking for collisions!!!
         var d1=Math.sqrt(Math.pow(p1x-starArray[i]._x,2)+Math.pow(p1y-starArray[i]._y,2));
         var d2=Math.sqrt(Math.pow(p2x-starArray[i]._x,2)+Math.pow(p2y-starArray[i]._y,2));
-        if (d1<20) {scoring(i,1)}
-        if (d2<20) {scoring(i,2)}
+        if (d1<35) {scoring(i,1)}
+        if (d2<35) {scoring(i,2)}
 
       }
     }//endFor
 
   } //close starsUpdate
 
-  //  scoring functions to place and score stars
-    function scoring(k,wp) {
-        starArray[k]._visible=false;
-        if (wp==1) {
-            // need to place a small star next to player 1 score
-            p1Score++;
-            $("#p1ScoreDisp").text(p1Score);
-            //song.play();
-        }
-        else if (wp==2) {
-            p2Score++;
-            $("#p2ScoreDisp").text(p2Score);
-            //song.play();
-        }
+    function leonard() {
+      lennyX-= lennyVX;
+      lennyY+= lennyVY;
+
+      if (lennyX < 0 || lennyX > w){lennyVX = -lennyVX}
+      if (lennyY < 0 || lennyY > h){lennyVY = -lennyVY}
+      ctx.drawImage(lenny, lennyX, lennyY, 271/3, 305/3);
 
     }
+
+    function thomas() {
+      itX-= itVX;
+      itY+= itVY;
+
+      if (itX < 0 || itX > w){itVX = -itVX}
+      if (itY < 0 || itY > h){itVY = -itVY}
+      ctx.drawImage(it, itX, itY, 485/6, 511/6);
+
+    }
+
+    function lebron() {
+      kingX-= kingVX;
+      kingY+= kingVY;
+
+      if (kingX < 0 || kingX > w){kingVX = -kingVX}
+      if (kingY < 0 || kingY > h){kingVY = -kingVY}
+      ctx.drawImage(king, kingX, kingY, 246/3, 346/3);
+
+    }
+
+    //  scoring functions to place and score stars
+      function scoring(k,wp) {
+          starArray[k]._visible=false;
+          if (wp==1) {
+              // need to place a small star next to player 1 score
+              p1Score++;
+              $("#p1ScoreDisp").text(p1Score);
+              //song.play();
+          }
+          else if (wp==2) {
+              p2Score++;
+              $("#p2ScoreDisp").text(p2Score);
+              //song.play();
+          }
+
+      }
 
   //Our main function which clears the screens
   //  and redraws it all again through function updates,
@@ -235,16 +283,19 @@ window.onload = function() {
     if (p2y>h) {p2y = h -50}
     if (p2y<0) {p2y = 10}
 
-    ctx.drawImage(ship1, p1x-30, p1y-30, 164, 104);
-    ctx.drawImage(ship2, p2x-30, p2y-30, 164, 104);
+    ctx.drawImage(ship1, p1x-82, p1y-52, 164, 104);
+    ctx.drawImage(ship2, p2x-82, p2y-52, 164, 104);
 
   }
 
   function main(){
     ctx.clearRect(0,0,w,h);
-    ctx.drawImage(background, 0, 0, w, h)
+    ctx.drawImage(background, 0, 0, w, h);
     starsUpdate();
     playerUpdate();
+    leonard();
+    thomas();
+    lebron();
     if (gameOn) {requestAnimationFrame(main);}
 
   }
